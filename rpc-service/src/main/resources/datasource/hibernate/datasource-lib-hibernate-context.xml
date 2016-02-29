@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+    <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<!-- <value>jdbc:mysql://182.92.238.64:3306/note?useUnicode=true&amp;characterEncoding=UTF-8
+			</value>
+			<value>jdbc:mysql://192.168.0.11:3306/ds?useUnicode=true&amp;characterEncoding=UTF-8
+			</value> -->
+			<value>jdbc:mysql://127.0.0.1:3306/ds?useUnicode=true&amp;characterEncoding=UTF-8
+			</value>
+		</property>
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan">
+            <list>
+                <value>com.my.ds.model</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect.config}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show.sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format.sql}</prop>
+                <prop key="hibernate.use_sql_comments">${hibernate.use.sql.comments}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
