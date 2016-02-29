@@ -16,8 +16,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateCallback;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.HibernateCallback;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 @SuppressWarnings("rawtypes")
 public abstract class BaseDao extends HibernateDaoSupport {
@@ -341,7 +341,7 @@ public abstract class BaseDao extends HibernateDaoSupport {
     private final Object getWithHqlQuery(final String hql, final Map<String, Object> condition) {
         return getHibernateTemplate().execute(new HibernateCallback<Object>() {
             @Override
-            public Object doInHibernate(Session session) throws HibernateException, SQLException {
+            public Object doInHibernate(Session session) throws HibernateException {
                 Query query = session.createQuery(hql);
                 configCondition(query, condition);
                 return query.uniqueResult();
@@ -359,7 +359,7 @@ public abstract class BaseDao extends HibernateDaoSupport {
     private final List listWithHqlQuery(final String hql, final Map<String, Object> condition) {
         return getHibernateTemplate().execute(new HibernateCallback<List>() {
             @Override
-            public List doInHibernate(Session session) throws HibernateException, SQLException {
+            public List doInHibernate(Session session) throws HibernateException {
                 Query query = session.createQuery(hql);
                 configCondition(query, condition);
                 return query.list();
@@ -378,7 +378,7 @@ public abstract class BaseDao extends HibernateDaoSupport {
 	private final Object getWithSQLQuery(final String sql, final Map<String, Object> condition, final Map<String, Type> scalarMapping, final ResultTransformer resultTransformer, final Class clazz) {
         return getHibernateTemplate().execute(new HibernateCallback<Object>() {
             @Override
-            public Object doInHibernate(Session session) throws HibernateException, SQLException {
+            public Object doInHibernate(Session session) throws HibernateException {
                 SQLQuery query = session.createSQLQuery(sql);
                 configCondition(query, condition);
                 if (scalarMapping != null && !scalarMapping.isEmpty()) {
@@ -405,7 +405,7 @@ public abstract class BaseDao extends HibernateDaoSupport {
 	private final List listWithSQLQuery(final String sql, final Map<String, Object> condition, final Map<String, Type> scalarMapping, final ResultTransformer resultTransformer, final Class clazz) {
         return getHibernateTemplate().execute(new HibernateCallback<List>() {
             @Override
-            public List doInHibernate(Session session) throws HibernateException, SQLException {
+            public List doInHibernate(Session session) throws HibernateException {
                 SQLQuery query = session.createSQLQuery(sql);
                 configCondition(query, condition);
                 if (scalarMapping != null && !scalarMapping.isEmpty()) {
@@ -432,7 +432,7 @@ public abstract class BaseDao extends HibernateDaoSupport {
     private final int excuteSQLQuery(final String sql, final Map<String, Object> condition) {
         return getHibernateTemplate().execute(new HibernateCallback<Integer>() {
             @Override
-            public Integer doInHibernate(Session session) throws HibernateException, SQLException {
+            public Integer doInHibernate(Session session) throws HibernateException {
                 SQLQuery query = session.createSQLQuery(sql);
                 configCondition(query, condition);
                 return query.executeUpdate();
